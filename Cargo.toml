@@ -1,0 +1,6 @@
+[package]
+name = "crypto-fun"
+version = "0.1.0"
+authors = ["robertdurst <rsdurst@colby.edu>"]
+
+[dependencies]
