@@ -92,7 +92,7 @@ def addition(a, b, p, P, Q):
     Learn more:
     http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/
 """
-def multipliction(a, b, p, P, n):
+def multiplication(a, b, p, P, n):
     Q = P
     R = '0'
     multiples_of_P = [P]
@@ -120,3 +120,10 @@ def multipliction(a, b, p, P, n):
         if bits[i] == 1:
             R = addition(a, b, p, R, multiples_of_P[i])
     return R
+
+"""
+    Simple test to check whether a point is on the elliptic curve.
+"""
+def is_valid_point(a, b, p, P):
+    x, y = P
+    return y**2 == ((x**3) + (a * x) + b)

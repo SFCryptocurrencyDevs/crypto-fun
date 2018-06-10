@@ -21,5 +21,5 @@ As a Golang/JavaScript developer by day and a Rust developer by night, I have no
 
 ### Testing
 ```
-python test.py
+python tests.py
 ```

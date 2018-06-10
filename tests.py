@@ -39,7 +39,7 @@ class CommonTests(unittest.TestCase):
         self.failUnlessEqual(common.mod_inverse(32334434, 262323434), False)
 
 class EllipticCurveTests(unittest.TestCase):
-    # For the next two tests, we will use the following parameters:
+    # For these tests, we will use the following parameters:
     #   a = 2
     #   b = 3
     #   p = 97
@@ -65,15 +65,19 @@ class EllipticCurveTests(unittest.TestCase):
     
     def test_multiplication(self):
         # 1P
-        self.failUnlessEqual(elliptic_curve.multipliction(2, 3, 97, [3,6], 1), [3, 6])
+        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 1), [3, 6])
         # 2P
-        self.failUnlessEqual(elliptic_curve.multipliction(2, 3, 97, [3,6], 2), [80, 10])
+        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 2), [80, 10])
         # 3P
-        self.failUnlessEqual(elliptic_curve.multipliction(2, 3, 97, [3,6], 3), [80, 87])
+        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 3), [80, 87])
         # 4P
-        self.failUnlessEqual(elliptic_curve.multipliction(2, 3, 97, [3,6], 4), [3, 91])
+        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 4), [3, 91])
         # 5P
-        self.failUnlessEqual(elliptic_curve.multipliction(2, 3, 97, [3,6], 5), '0')
+        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 5), '0')
+
+    def test_is_valid_point(self):
+        self.failUnlessEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 6]), True)
+        self.failUnlessEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 7]), False)
 
 if __name__ == '__main__':
     unittest.main()
