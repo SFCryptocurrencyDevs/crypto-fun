@@ -1,6 +1,7 @@
 import unittest
 import common
 import elliptic_curve
+import smile
 
 class CommonTests(unittest.TestCase):
     def test_base_b_digits(self):
@@ -78,6 +79,36 @@ class EllipticCurveTests(unittest.TestCase):
     def test_is_valid_point(self):
         self.assertEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 6]), True)
         self.assertEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 7]), False)
+
+class SmileTests(unittest.TestCase):
+    # Here we will test whether a full transaction adds up correctly.
+    # Hence, we are checking that for:
+    #   v1 = 10 | r1 = 1 | input1  = (r1 * G + v1 * H )
+    #   v2 = 20 | r2 = 2 | input2  = (r2 * G + v2 * H )
+    #   v3 = 30 | r1 = 3 | output1 = (r3 * G + v3 * H )
+    #
+    #   input1 + input2 = output1
+    #
+
+    def test_generate_commitment(self):
+        # We will use the following params:
+        a = 1
+        b = 6
+        p = 97.0
+        G = [3, 6]    # Only used by generate_commitment internally
+        H = [-1, -2]  # Only used by generate_commitment internally
+
+        v1, v2, v3 = 10, 20, 30
+        r1, r2, r3 = 1, 2, 3
+
+        input1 =  smile.generate_commitment(v1, r1)
+        input2 =  smile.generate_commitment(v2, r2)
+        output1 =  smile.generate_commitment(v3, r3)
+
+        total_input = elliptic_curve.addition(a,b,p, input1, input2)
+
+        self.assertEqual(total_input, output1)
+
 
 if __name__ == '__main__':
     unittest.main()

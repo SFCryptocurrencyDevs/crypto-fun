@@ -50,11 +50,3 @@ def generate_commitment(v, r):
     r_G = elliptic_curve.multiplication(a, b, p, G, r)
     v_H = elliptic_curve.multiplication(a, b, p, H, v)
     return elliptic_curve.addition(a,b,p, r_G, v_H)
-
-z1 = generate_commitment(1, 1)
-z2 = generate_commitment(2, 1)
-z3 = generate_commitment(3, 2)
-
-print(elliptic_curve.is_valid_point(a,b,p,z1))
-print(elliptic_curve.is_valid_point(a,b,p,z2))
-print(elliptic_curve.is_valid_point(a,b,p,z3))
