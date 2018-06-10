@@ -91,13 +91,14 @@ class SmileTests(unittest.TestCase):
     #
 
     def test_generate_commitment(self):
-        # We will use the following params:
-        a = 1
-        b = 6
-        p = 97.0
-        G = [3, 6]    # Only used by generate_commitment internally
-        H = [-1, -2]  # Only used by generate_commitment internally
+        v1, v2, v3 = 10, 20, 30
+        r1, r2, r3 = 1, 2, 3
 
+        self.assertEqual(smile.generate_commitment(v1, r1), [28.0, 8.0])
+        self.assertEqual(smile.generate_commitment(v2, r2), [37.0, 81.0])
+        self.assertEqual(smile.generate_commitment(v3, r3), [93.0, 36.0])
+
+    def test_validate_transaction(self):
         v1, v2, v3 = 10, 20, 30
         r1, r2, r3 = 1, 2, 3
 
@@ -105,9 +106,10 @@ class SmileTests(unittest.TestCase):
         input2 =  smile.generate_commitment(v2, r2)
         output1 =  smile.generate_commitment(v3, r3)
 
-        total_input = elliptic_curve.addition(a,b,p, input1, input2)
+        inputs = [input1, input2]
+        outputs = [output1]
 
-        self.assertEqual(total_input, output1)
+        self.assertEqual(smile.validate_transaction(inputs, outputs), True)
 
 
 if __name__ == '__main__':
