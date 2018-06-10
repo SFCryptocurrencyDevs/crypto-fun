@@ -5,6 +5,7 @@
 # MA398 class.
 
 import common
+import math
 
 """
     Elliptic curve point addition is fundamental to many different elliptic curve based
@@ -125,5 +126,9 @@ def multiplication(a, b, p, P, n):
     Simple test to check whether a point is on the elliptic curve.
 """
 def is_valid_point(a, b, p, P):
+    if P == '0':
+        return True
     x, y = P
-    return y**2 == ((x**3) + (a * x) + b)
+    left = math.pow(y,2) % p
+    right = (math.pow(x,3) + (a * x) + b) % p
+    return math.isclose(left, right)

@@ -16,6 +16,8 @@ As is conventional wisdom in the world of cryptography:
 ## Setup and Testing
 As a Golang/JavaScript developer by day and a Rust developer by night, I have no idea how to properly setup a Python project (cough cough open a PR please). So, instead I will list the required packages and testing instructions here.
 
+*Note:* only works with python 3+.
+
 ### Required Packages
 * unittest
 

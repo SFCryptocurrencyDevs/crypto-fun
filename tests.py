@@ -5,38 +5,38 @@ import elliptic_curve
 class CommonTests(unittest.TestCase):
     def test_base_b_digits(self):
         # Base 2
-        self.failUnlessEqual(common.base_b_digits(1, 2), [1])
-        self.failUnlessEqual(common.base_b_digits(4, 2), [0,0,1])
-        self.failUnlessEqual(common.base_b_digits(7, 2), [1,1,1])
-        self.failUnlessEqual(common.base_b_digits(12, 2), [0,0,1,1])
+        self.assertEqual(common.base_b_digits(1, 2), [1])
+        self.assertEqual(common.base_b_digits(4, 2), [0,0,1])
+        self.assertEqual(common.base_b_digits(7, 2), [1,1,1])
+        self.assertEqual(common.base_b_digits(12, 2), [0,0,1,1])
         # Base 4
-        self.failUnlessEqual(common.base_b_digits(27, 4), [3, 2, 1])
+        self.assertEqual(common.base_b_digits(27, 4), [3, 2, 1])
         # Base 12
-        self.failUnlessEqual(common.base_b_digits(54, 12), [6, 4])
+        self.assertEqual(common.base_b_digits(54, 12), [6, 4])
 
     def test_gcd(self):
         # Small integers
-        self.failUnlessEqual(common.gcd(10, 45), 5)
+        self.assertEqual(common.gcd(10, 45), 5)
          # Medium integers
-        self.failUnlessEqual(common.gcd(172383, 209399), 1)
+        self.assertEqual(common.gcd(172383, 209399), 1)
          # Large integers
-        self.failUnlessEqual(common.gcd(12938183838281, 91827172737173), 1)
+        self.assertEqual(common.gcd(12938183838281, 91827172737173), 1)
     
     def test_extended_eucliden_algorithm(self):
         # Small integers
-        self.failUnlessEqual(common.extended_euclidean_algorithm(37, 23),  (5, -8))
+        self.assertEqual(common.extended_euclidean_algorithm(37, 23),  (5, -8))
          # Medium integers
-        self.failUnlessEqual(common.extended_euclidean_algorithm(172383, 209399), (45386, -37363))
+        self.assertEqual(common.extended_euclidean_algorithm(172383, 209399), (45386, -37363))
          # Large integers
-        self.failUnlessEqual(common.extended_euclidean_algorithm(12938183838281, 91827172737173), (40307160997105, -5679162751448))
+        self.assertEqual(common.extended_euclidean_algorithm(12938183838281, 91827172737173), (40307160997105, -5679162751448))
     
     def test_mod_inverse(self):
         # Small integers
-        self.failUnlessEqual(common.mod_inverse(3, 26), 9)
+        self.assertEqual(common.mod_inverse(3, 26), 9)
          # Medium integers
-        self.failUnlessEqual(common.mod_inverse(323, 26232), 17867)
+        self.assertEqual(common.mod_inverse(323, 26232), 17867)
          # Large integers
-        self.failUnlessEqual(common.mod_inverse(32334434, 262323434), False)
+        self.assertEqual(common.mod_inverse(32334434, 262323434), False)
 
 class EllipticCurveTests(unittest.TestCase):
     # For these tests, we will use the following parameters:
@@ -53,31 +53,31 @@ class EllipticCurveTests(unittest.TestCase):
     
     def test_addition(self):
         # 1P
-        self.failUnlessEqual(elliptic_curve.addition(2, 3, 97, [3,6], '0'), [3, 6])
+        self.assertEqual(elliptic_curve.addition(2, 3, 97, [3,6], '0'), [3, 6])
         # 2P
-        self.failUnlessEqual(elliptic_curve.addition(2, 3, 97, [3,6], [3,6]), [80, 10])
+        self.assertEqual(elliptic_curve.addition(2, 3, 97, [3,6], [3,6]), [80, 10])
         # 3P
-        self.failUnlessEqual(elliptic_curve.addition(2, 3, 97, [3,6], [80,10]), [80, 87])
+        self.assertEqual(elliptic_curve.addition(2, 3, 97, [3,6], [80,10]), [80, 87])
         # 4P
-        self.failUnlessEqual(elliptic_curve.addition(2, 3, 97, [3,6], [80, 87]), [3, 91])
+        self.assertEqual(elliptic_curve.addition(2, 3, 97, [3,6], [80, 87]), [3, 91])
         # 5P
-        self.failUnlessEqual(elliptic_curve.addition(2, 3, 97, [3,6], [3,91]), '0')
+        self.assertEqual(elliptic_curve.addition(2, 3, 97, [3,6], [3,91]), '0')
     
     def test_multiplication(self):
         # 1P
-        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 1), [3, 6])
+        self.assertEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 1), [3, 6])
         # 2P
-        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 2), [80, 10])
+        self.assertEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 2), [80, 10])
         # 3P
-        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 3), [80, 87])
+        self.assertEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 3), [80, 87])
         # 4P
-        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 4), [3, 91])
+        self.assertEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 4), [3, 91])
         # 5P
-        self.failUnlessEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 5), '0')
+        self.assertEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 5), '0')
 
     def test_is_valid_point(self):
-        self.failUnlessEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 6]), True)
-        self.failUnlessEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 7]), False)
+        self.assertEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 6]), True)
+        self.assertEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 7]), False)
 
 if __name__ == '__main__':
     unittest.main()
