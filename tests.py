@@ -50,7 +50,7 @@ class EllipticCurveTests(unittest.TestCase):
     #   2P = [80, 10]
     #   3P = [80, 87]
     #   4P = [3, 91]
-
+    
     def test_addition(self):
         # 1P
         self.failUnlessEqual(elliptic_curve.addition(2, 3, 97, [3,6], '0'), [3, 6])
