@@ -51,7 +51,7 @@ def generate_commitment(v, r):
     v_H = elliptic_curve.multiplication(a, b, p, H, v)
     return elliptic_curve.addition(a,b,p, r_G, v_H)
 
-def validate_transaction(inputs, outputs):
+def validate_transaction_is_zero(inputs, outputs):
     input_total = '0'
     output_total = '0'
 

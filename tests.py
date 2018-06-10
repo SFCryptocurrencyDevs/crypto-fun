@@ -81,15 +81,6 @@ class EllipticCurveTests(unittest.TestCase):
         self.assertEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 7]), False)
 
 class SmileTests(unittest.TestCase):
-    # Here we will test whether a full transaction adds up correctly.
-    # Hence, we are checking that for:
-    #   v1 = 10 | r1 = 1 | input1  = (r1 * G + v1 * H )
-    #   v2 = 20 | r2 = 2 | input2  = (r2 * G + v2 * H )
-    #   v3 = 30 | r1 = 3 | output1 = (r3 * G + v3 * H )
-    #
-    #   input1 + input2 = output1
-    #
-
     def test_generate_commitment(self):
         v1, v2, v3 = 10, 20, 30
         r1, r2, r3 = 1, 2, 3
@@ -97,8 +88,15 @@ class SmileTests(unittest.TestCase):
         self.assertEqual(smile.generate_commitment(v1, r1), [28.0, 8.0])
         self.assertEqual(smile.generate_commitment(v2, r2), [37.0, 81.0])
         self.assertEqual(smile.generate_commitment(v3, r3), [93.0, 36.0])
-
-    def test_validate_transaction(self):
+    
+    # Here we will test whether a full transaction adds up correctly (assume sums to zero, no blinding here).
+    # Hence, we are checking that for:
+    #   v1 = 10 | r1 = 1 | input1  = (r1 * G + v1 * H )
+    #   v2 = 20 | r2 = 2 | input2  = (r2 * G + v2 * H )
+    #   v3 = 30 | r1 = 3 | output1 = (r3 * G + v3 * H )
+    #
+    #   input1 + input2 = output1 = 0
+    def test_validate_transaction_is_zero(self):
         v1, v2, v3 = 10, 20, 30
         r1, r2, r3 = 1, 2, 3
 
@@ -109,7 +107,7 @@ class SmileTests(unittest.TestCase):
         inputs = [input1, input2]
         outputs = [output1]
 
-        self.assertEqual(smile.validate_transaction(inputs, outputs), True)
+        self.assertEqual(smile.validate_transaction_is_zero(inputs, outputs), True)
 
 
 if __name__ == '__main__':
