@@ -123,6 +123,17 @@ def multiplication(a, b, p, P, n):
     return R
 
 """
+    Subtraction is addition, but the subtracting value is inverted over
+    the x-axis.
+
+    Ex: P - Q = P + (-Q)
+"""
+def subtraction(a, b, p, P, Q):
+    if Q == '0':
+        return P
+    return addition(a, b, p, P, [Q[0], -Q[1]])
+
+"""
     Simple test to check whether a point is on the elliptic curve.
 """
 def is_valid_point(a, b, p, P):

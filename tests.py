@@ -76,6 +76,14 @@ class EllipticCurveTests(unittest.TestCase):
         # 5P
         self.assertEqual(elliptic_curve.multiplication(2, 3, 97, [3,6], 5), '0')
 
+    def test_subtraction(self):
+        # Subtracting two equal values equals 0
+        self.assertEqual(elliptic_curve.subtraction(2, 3, 97, [3,6], [3,6]), '0')
+        # Subtracting zero from P equals P
+        self.assertEqual(elliptic_curve.subtraction(2, 3, 97, [3,6], '0'), [3,6])
+        # Subtracting P from 0 equals -P
+        self.assertEqual(elliptic_curve.subtraction(2, 3, 97, '0', [3,6]), [3,-6])
+
     def test_is_valid_point(self):
         self.assertEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 6]), True)
         self.assertEqual(elliptic_curve.is_valid_point(2, 3, 97, [3, 7]), False)
