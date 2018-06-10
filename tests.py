@@ -26,5 +26,29 @@ class CommonTests(unittest.TestCase):
          # Large integers
         self.failUnlessEqual(common.mod_inverse(32334434, 262323434), False)
 
+    # For the next two tests, we will use the following parameters:
+        #   a = 2
+        #   b = 3
+        #   p = 97
+        #
+        # This curve has a generator point at [3,6] with an order of 5:
+        #   0P = '0'
+        #   1P = [3,6]
+        #   2P = [80, 10]
+        #   3P = [80, 87]
+        #   4P = [3, 91]
+    def test_elliptic_curve_addition(self):
+        # 1P
+        self.failUnlessEqual(common.elliptic_curve_addition(2, 3, 97, [3,6], '0'), [3, 6])
+        # 2P
+        self.failUnlessEqual(common.elliptic_curve_addition(2, 3, 97, [3,6], [3,6]), [80, 10])
+        # 3P
+        self.failUnlessEqual(common.elliptic_curve_addition(2, 3, 97, [3,6], [80,10]), [80, 87])
+        # 4P
+        self.failUnlessEqual(common.elliptic_curve_addition(2, 3, 97, [3,6], [80, 87]), [3, 91])
+        # 5P
+        self.failUnlessEqual(common.elliptic_curve_addition(2, 3, 97, [3,6], [3,91]), '0')
+
+
 if __name__ == '__main__':
     unittest.main()

@@ -76,7 +76,7 @@ def extended_euclidean_algorithm(a,b):
     t, old_t = 0,1
 
     while r != 0:
-        q = old_r / r
+        q = old_r // r
 
         r, old_r = old_r - q * r, r
         s, old_s = old_s - q * s, s
@@ -90,6 +90,9 @@ def extended_euclidean_algorithm(a,b):
     and the modulo is 1; this is known as coprime or relatively prime. If this
     test passes, then you return the coefficient of a from  the extended 
     euclidean algorithm.
+
+    Learn more:
+    https://crypto.stackexchange.com/questions/22490/rsa-key-generation-how-is-multiplicative-inverse-computed
 """
 def mod_inverse(a, m):
     if gcd(a,m) != 1:
@@ -97,3 +100,63 @@ def mod_inverse(a, m):
     
     (u,_) = extended_euclidean_algorithm(a,m)
     return u % m
+
+"""
+    Elliptic curve point addition is fundamental to many different elliptic curve based
+    crypto-systems. The basis of elliptic curve addition is rooted in the properties
+    garaunteed to the elliptic curve group:
+
+    1. [Closure]: the elements of the group are points on the elliptic curve
+    2. [Identity]: there exists a point at infinity ('0') such that P + '0'  = '0' + P = P
+    3. [Inverse]: the inverse of P, -P, is the point symmetric across the x-axis
+    4. [Associativity]: P + Q = Q + P
+    
+    And the group is even abelian, meaning it also has the property:
+    5. [Commutative]: P+(Q+R)=Q+(P+R)=R+(P+Q)=... =0
+
+    Note, addition is on an elliptic curve is defined as:
+
+        given three alligned, non-zero points P, Q, R,
+        their sum is P + Q + R = 0.
+
+    With these properties in hand, you can begin to conceptualize elliptic curve addition.
+    The function below has an extra parameter, p. P is a prime number, used to denote a 
+    finite field mod p, which our elliptic curve is defined over. Elliptic Curve Cryptography
+    uses finite fields to give elliptic curves a few interesting additional properties,
+    very useful for things such as ECDSA (elliptic curve digital signature algorithm) or 
+    ECDH (elliptic curve diffie helman).
+
+    Learn more:
+    http://andrea.corbellini.name/2015/05/17/elliptic-curve-cryptography-a-gentle-introduction/
+"""
+def elliptic_curve_addition(a, b, p, P, Q):
+    # Case 1: P = 0 or Q = 0, where 0 is the point at infinity.
+    if P == '0':
+        return Q
+    if Q == '0':
+        return P
+
+    x1, y1 = P
+    x2, y2 = Q
+    
+    # Case 2: P == -Q, so we get P - P = 0
+    if (x1 - x2) % p == 0 and (y1 + y2) % p == 0:
+        return '0'
+    
+    # Case 3: P == Q, so we must use the derivative of the slope
+    # to find the line tangent to the curve.
+    if P == Q:
+        slope_numerator = (3*x1**2 + a) % p
+        slope_denominator = 2*y1 % p
+
+    # Case 4: P =/ Q, allowing us to find the simple slope.
+    else:
+        slope_numerator = (y2 - y1) % p
+        slope_denominator = (x2 - x1) % p
+    
+    slope = (slope_numerator * mod_inverse(slope_denominator, p)) % p
+
+    x3 = (slope**2 - x1 - x2) % p
+    y3 = (slope*(x1 - x3) - y1) % p
+
+    return [x3,y3]
